@@ -1,0 +1,55 @@
+@url = http://localhost:30000/api
+@json = Content-Type: application/json
+
+###
+get {{url}}
+
+### 所有用户
+get {{url}}/allUsers
+
+
+### 注册
+post {{url}}/register
+{{json}}
+
+{
+    "studentId": "201805130163",
+    "realName": "亓龙雨",
+    "password": "password123456",
+    "invitationCode": "first_invite",
+    "email": "qilongyu@126.com",
+    "emailCode": "761200"
+}
+
+### 登录
+post {{url}}/login
+{{json}}
+
+{
+    "studentId": "201805130163",
+    "password": "password123456"
+}
+
+### 个人信息
+get {{url}}/profile
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmNzA2MjI4MzE3NmQ3NzJmMGRjZmM3MiIsImlhdCI6MTYwMTIwNDQxNn0.45qnw9RpNzPvkMW9BM3jbkJKJEf7POeo7jjWMFogZqA
+
+### 所有邮箱验证码
+get {{url}}/allEmailCode
+
+### 发送邮箱验证码
+post {{url}}/sendEmailCode
+{{json}}
+
+{
+    "email": "qilongyu@126.com"
+}
+
+### 邀请码生成
+post {{url}}/createInvitationCode
+{{json}}
+
+{
+    "code": "first_invite",
+    "total": 100
+}
