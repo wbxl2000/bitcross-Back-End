@@ -17,7 +17,8 @@ router.post('/', jsonParser, async (req, res) => {
     // uid is not exist
     if (!user) {
         return res.status(422).send({
-            msg: '用户名不存在'
+            msg: '用户名不存在',
+            token: ''
         })
     }
     
@@ -27,7 +28,8 @@ router.post('/', jsonParser, async (req, res) => {
     )
     if (!isPasswordValid) {
         return res.status(422).send({
-            msg: '密码无效或错误'
+            msg: '密码无效或错误',
+            token: ''
         })
     }
     // 生成token
@@ -36,7 +38,7 @@ router.post('/', jsonParser, async (req, res) => {
     }, SECRET)
 
     res.send({
-        user,
+        msg: "登录成功",
         token
     })
 })
