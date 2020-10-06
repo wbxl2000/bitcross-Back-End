@@ -13,12 +13,12 @@ post {{url}}/register
 {{json}}
 
 {
-    "studentId": "201805130163",
+    "studentId": "201805130165",
     "realName": "亓龙雨",
     "password": "password123456",
     "invitationCode": "first_invite",
     "email": "qilongyu@126.com",
-    "emailCode": "761200"
+    "emailCode": "050611"
 }
 
 ### 登录
@@ -52,4 +52,25 @@ post {{url}}/createInvitationCode
 {
     "code": "first_invite",
     "total": 100
+}
+
+### 创建帖子
+post {{url}}/createPost
+{{json}}
+
+{
+    "postType": 1,
+    "creatorId": "201805130163",
+    "title": "第3篇帖子的标题",
+    "content": "这里是第3篇帖子的内容嗷嗷嗷嗷contentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontent"
+}
+
+### 回复帖子
+post {{url}}/addPostContent
+{{json}}
+
+{
+    "post_id": 3,
+    "reply_id": "201805130163",
+    "reply_content": "抢沙发"
 }

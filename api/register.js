@@ -2,6 +2,7 @@ const express = require('express')
 const { userAuths } = require('./db/models.js')
 const { emailCode } = require('./db/emailCode.js')
 const { invitationCode } = require('./db/invitationCode.js')
+const { counts } = require('./db/counts.js')
 
 var router = express.Router()
 
@@ -57,6 +58,31 @@ router.post('/', jsonParser, async (req, res) => {
 
     invitationVerification.count += 1;
 
+    // 这是我今年写过的最丑的代码，但是没办法
+    let cnt = await counts.findOne({
+        name: "user"
+    })
+    if (!cnt) {
+        cnt = await counts.create({
+            name: "user"
+        })
+        cnt = await counts.findOne({
+            name: "user"
+        })
+    }
+    if (!cnt) {
+        res.status(200).send({
+            msg: "一些意料之外的错误"
+        })
+        return;
+    }
+    let newCnt = cnt.count + 1;
+
+    counts.updateOne({name: "user"}, {count: newCnt}, function(err, docs){
+        if(err) console.log(err);
+        console.log('人数修改成功：' + docs);
+    })
+    console.log('人:'+cnt.count);
     res.status(200).send({
         msg: "注册成功"
     })
