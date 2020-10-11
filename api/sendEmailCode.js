@@ -49,11 +49,13 @@ router.post('/', jsonParser, async (req, res) => {
             })
             if (emailer) {
                 res.status(200).send({
-                    msg: "邮件发送成功"
+                    resCode: "0"
+                    // msg: "邮件发送成功"
                 })
             } else {
                 res.status(422).send({
-                    msg: "邮件发送失败，邮箱填写错误，请检查后重试。详情请询问管理员。"
+                    resCode: "1"
+                    // msg: "邮件发送失败，邮箱填写错误，请检查后重试。详情请询问管理员。"
                 })
             }
         }

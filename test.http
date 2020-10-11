@@ -1,5 +1,7 @@
-@url = http://localhost:30000/api
+# @url = http://localhost:30000/api
+@url = http://60.205.247.170:30000/api
 @json = Content-Type: application/json
+@json2 = Content-Type: application/x-www-form-urlencoded
 
 ###
 get {{url}}
@@ -26,7 +28,7 @@ post {{url}}/login
 {{json}}
 
 {
-    "studentId": "201805130165",
+    "studentId": "201805130163",
     "password": "password123456"
 }
 

@@ -1,8 +1,8 @@
 // TODO 用文件替换掉 而且 全局唯一
 const SECRET = 'qwrqerewrwerasedfsd';
+const jwt = require('jsonwebtoken')
 
 const express = require('express')
-const jwt = require('jsonwebtoken')
 const { userAuths } = require('./db/models.js')
 
 var router = express.Router()
@@ -17,7 +17,7 @@ router.post('/', jsonParser, async (req, res) => {
     // uid is not exist
     if (!user) {
         return res.status(422).send({
-            msg: '用户名不存在',
+            resCode: '2',
             token: ''
         })
     }
@@ -28,7 +28,7 @@ router.post('/', jsonParser, async (req, res) => {
     )
     if (!isPasswordValid) {
         return res.status(422).send({
-            msg: '密码无效或错误',
+            resCode: '1',
             token: ''
         })
     }
@@ -38,7 +38,7 @@ router.post('/', jsonParser, async (req, res) => {
     }, SECRET)
 
     res.send({
-        msg: "登录成功",
+        resCode: "0",
         token
     })
 })
