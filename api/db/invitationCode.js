@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser')
 
-mongoose.connect('mongodb://bitcorssAdmin:#1Xbit@localhost:27017/bitcross', {
+mongoose.connect('mongodb://bitcrossAdmin:#1Xbit@localhost:27017/bitcross', {
     useCreateIndex: true,
     useUnifiedTopology: true, 
     useNewUrlParser: true

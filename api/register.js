@@ -44,20 +44,6 @@ router.post('/', jsonParser, async (req, res) => {
         })
     }
 
-    const user = await userAuths.create({
-        uid: req.body.studentId, 
-        password: req.body.password
-    })
-    // console.log("user:" + user)
-    // res.send(user)
-    if(!user) {
-        res.status(422).send({
-            msg: "注册失败"
-        })
-    }
-
-    invitationVerification.count += 1;
-
     // 这是我今年写过的最丑的代码，但是没办法
     let cnt = await counts.findOne({
         name: "user"
@@ -78,11 +64,31 @@ router.post('/', jsonParser, async (req, res) => {
     }
     let newCnt = cnt.count + 1;
 
-    counts.updateOne({name: "user"}, {count: newCnt}, function(err, docs){
+    let x1 = await counts.updateOne({name: "user"}, {count: newCnt}, function(err, docs){
         if(err) console.log(err);
         console.log('人数修改成功：' + docs);
     })
     console.log('人:'+cnt.count);
+
+    const user = await userAuths.create({
+        uid: req.body.studentId, 
+        id: newCnt, 
+        password: req.body.password
+    })
+    // console.log("user:" + user)
+    // res.send(user)
+    if(!user) {
+        res.status(422).send({
+            msg: "注册失败"
+        })
+    }
+
+    invitationVerification.count += 1; //
+    const x3 = await invitationCode.updateOne({code: req.body.invitationCode}, {count: invitationVerification.count}, function(err, docs){
+        if(err) console.log(err);
+        console.log('验证码使用次数修改成功：' + docs);
+    })
+
     res.status(200).send({
         msg: "注册成功"
     })

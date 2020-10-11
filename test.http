@@ -13,7 +13,7 @@ post {{url}}/register
 {{json}}
 
 {
-    "studentId": "201805130165",
+    "studentId": "201805130168",
     "realName": "亓龙雨",
     "password": "password123456",
     "invitationCode": "first_invite",
@@ -26,7 +26,7 @@ post {{url}}/login
 {{json}}
 
 {
-    "studentId": "201805130163",
+    "studentId": "201805130165",
     "password": "password123456"
 }
 
