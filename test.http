@@ -1,5 +1,5 @@
-# @url = http://localhost:30000/api
-@url = http://60.205.247.170:30000/api
+@url = http://localhost:30000/api
+# @url = http://60.205.247.170:30000/api
 @json = Content-Type: application/json
 @json2 = Content-Type: application/x-www-form-urlencoded
 
@@ -15,12 +15,12 @@ post {{url}}/register
 {{json}}
 
 {
-    "studentId": "201805130168",
+    "studentId": "201805130146",
     "realName": "亓龙雨",
     "password": "password123456",
-    "invitationCode": "first_invite",
+    "invitationCode": "abc",
     "email": "qilongyu@126.com",
-    "emailCode": "050611"
+    "emailCode": "398989"
 }
 
 ### 登录
@@ -28,7 +28,7 @@ post {{url}}/login
 {{json}}
 
 {
-    "studentId": "201805130163",
+    "studentId": "201805130146",
     "password": "password123456"
 }
 
@@ -52,7 +52,7 @@ post {{url}}/createInvitationCode
 {{json}}
 
 {
-    "code": "first_invite",
+    "code": "abccc",
     "total": 100
 }
 

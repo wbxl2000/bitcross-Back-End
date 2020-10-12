@@ -15,106 +15,148 @@ const bodyParser = require('body-parser')
 var jsonParser = bodyParser.json()
 
 router.post('/', jsonParser, async (req, res) => {
-    // console.log(req.body)
-    // 验证邮箱验证码
-    // email is not exist
-    const email = await emailCode.findOne({
-        email: req.body.email
-    })
-    var token = "";
-    if (!email) {
+    var endPost = (resCode, token = '') => {
+        console.log('endpost: ' + token)
         return res.status(200).send({
-            resCode: "1",
+            resCode,
             token
-        })
-    }
-    
-    const isPasswordValid = (email.code == req.body.emailCode) 
-    if (!isPasswordValid) {
-        return res.status(422).send({
-            resCode: "1",
-            token
-            // msg: '验证码无效或错误'
-        })
-    }
-    console.log('邮箱验证成功')
-
-    const invitationVerification = await invitationCode.findOne({
-        code: req.body.invitationCode
-    })
-    if (!invitationVerification) {
-        return res.status(422).send({
-            resCode: "2",
-            token
-            // msg: '邀请码错误，没有注册权限'
-        })
-    }
-    if (invitationVerification.count == invitationVerification.total) {
-        return res.status(422).send({
-            resCode: "3",
-            token
-            // msg: '邀请码使用次数用完，已过期'
         })
     }
 
-    // 这是我今年写过的最丑的代码，但是没办法
-    let cnt = await counts.findOne({
-        name: "user"
-    })
-    if (!cnt) {
-        cnt = await counts.create({
-            name: "user"
-        })
-        cnt = await counts.findOne({
-            name: "user"
-        })
-    }
-    if (!cnt) {
-        res.status(200).send({
-            resCode: "4",
-            token
-            // msg: "一些意料之外的错误"
-        })
+    var token = "";
+    var resCode = 0;
+    // 验证数据是否合法
+    if (!req.body.studentId || !req.body.realName || !req.body.password 
+        || !req.body.invitationCode || !req.body.email || !req.body.emailCode) {
+            resCode = "4";
+        } else {
+            console.log("数据合法");
+        }
+    if (resCode) {
+        endPost(resCode, token);
         return;
     }
-    let newCnt = cnt.count + 1;
-
-    let x1 = await counts.updateOne({name: "user"}, {count: newCnt}, function(err, docs){
-        if(err) console.log(err);
-        console.log('人数修改成功：' + docs);
+    // 验证用户是否存在
+    const existUser = await userAuths.findOne({
+        uid: req.body.studentId
+    }, (err, data) => {
+        if (err || data) {
+            console.log("err:" + err + ', data:' + data);
+            // endPost("4", "ttttt");
+            resCode = "4"
+        } else {
+            console.log("不存在重复用户");
+        }
     })
-    console.log('人:'+cnt.count);
-
-    const user = await userAuths.create({
-        uid: req.body.studentId, 
-        id: newCnt, 
-        password: req.body.password
-    })
-    // console.log("user:" + user)
-    // res.send(user)
-    if(!user) {
-        res.status(422).send({
-            resCode: "4",
-            token
-            // msg: "注册失败"
-        })
+    if (resCode) {
+        endPost(resCode, token);
+        return;
     }
 
-    invitationVerification.count += 1; //
-    const x3 = await invitationCode.updateOne({code: req.body.invitationCode}, {count: invitationVerification.count}, function(err, docs){
-        if(err) console.log(err);
-        console.log('验证码使用次数修改成功：' + docs);
-    })    
-    
-    // 生成token
-    token = jwt.sign({
-        id: String(user._id),
-    }, SECRET)
+    // 验证邮箱验证码  期待一种更好看的写法
+    const email = await emailCode.findOne({
+        email: req.body.email
+    }, (err, data) => {
+        if (err || !data) {
+            resCode = "1"
+        } else {
+            if (data.code != req.body.emailCode) {
+                resCode = "1";
+            } else {
+                console.log('邮箱验证成功');
+            }
+        }
+    })
+    if (resCode) {
+        endPost(resCode, token);
+        return;
+    }
 
-    res.status(200).send({
-        resCode: "0",
-        token
-        // msg: "注册成功"
+    // 验证邀请码
+    const invitationVerification = await invitationCode.findOne({
+        code: req.body.invitationCode
+    }, (err, data) => {
+        if (err) {
+            // endPost("2");
+            resCode = "2"
+        } else {
+            if (!data) {
+                // endPost("4");
+                resCode = "4"
+            } else {
+                console.log('邀请码查找成功');
+                if (data.count == data.total) {
+                    console.log('邀请码使用次数用完，已过期');
+                    // endPost("3");
+                    resCode = "3";
+                } 
+            }
+        }
+    })
+    if (resCode) {
+        endPost(resCode, token);
+        return;
+    }
+    
+    // 更新邀请码使用次数
+    const x3 = await invitationCode.updateOne({
+        code: req.body.invitationCode
+    }, {
+        count: invitationVerification.count + 1
+    }, (err, data) => {
+        if(err) {
+            console.log(err);
+            // endPost("4");
+            resCode = "4";
+        } else {
+            console.log('邀请码使用次数修改成功：' + data);
+        }
+    })    
+    if (resCode) {
+        endPost(resCode, token);
+        return;
+    }
+    // 修改总人数
+    let nums = await counts.findOne({
+        name: "user"
+    })
+
+    let x1 = await counts.updateOne({
+        name: "user"
+    }, {
+        count: nums.count + 1
+    }, (err, data) => {
+        if(err) {
+            console.log('人数修改失败:' + err);
+            // endPost("4");
+            resCode = "4";
+        } else {
+            console.log('人数修改成功：' + data.count);
+        }
+    })
+    if (resCode) {
+        endPost(resCode, token);
+        return;
+    }
+    // 创建用户
+    const user = await userAuths.create({
+        uid: req.body.studentId, 
+        id: nums.count + 1, 
+        password: req.body.password
+    }, (err, data) => {
+        if (err) {
+            console.log('用户创建失败:' + err);
+            // endPost("4");
+            resCode = "4";
+        } else {
+            console.log('用户创建成功:' + data.uid);
+            // 生成token
+            token = jwt.sign({
+                id: String(req.body.studentId),
+            }, SECRET)
+            console.log("token生成成功");
+            endPost("0", token);
+        }
     })
 
 })

@@ -7,10 +7,10 @@ const register = require("./api/register")
 const login = require("./api/login")
 const profile = require("./api/profile")
 const sendEmailCode = require("./api/sendEmailCode")
-const createpost = require("./api/createpost")
+const createPost = require("./api/createPost")
 const addPostContent = require("./api/addPostContent")
 // half fake
-const createInvitationCode = require("./api/createPost")
+const createInvitationCode = require("./api/createInvitationCode")
 
 //fake test
 const allUsers = require("./api/allUsers")
@@ -22,7 +22,7 @@ app.use("/api/register", register)
 app.use("/api/login", login)
 app.use("/api/profile", profile)
 app.use("/api/sendEmailCode", sendEmailCode)
-app.use("/api/createpost", createpost)
+app.use("/api/createPost", createPost)
 app.use("/api/addPostContent", addPostContent)
 // half fake
 app.use("/api/createInvitationCode", createInvitationCode)

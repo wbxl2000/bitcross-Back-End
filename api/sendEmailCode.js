@@ -43,21 +43,24 @@ router.post('/', jsonParser, async (req, res) => {
         } else {
             console.log('Email sent: ' + info.response);
             // 保存验证码
+            console.log(`will store:` + theMail + ", " + code);
             const emailer = emailCode.create({
                 email: theMail,
                 code
+            }, (err, data) => {
+                if (err) {
+                    console.log('store error' + err);
+                    res.status(200).send({
+                        resCode: "1"
+                        // msg: "邮件发送失败，邮箱填写错误，请检查后重试。详情请询问管理员。"
+                    })
+                } else {
+                    res.status(200).send({
+                        resCode: "0"
+                        // msg: "邮件发送成功"
+                    })
+                }
             })
-            if (emailer) {
-                res.status(200).send({
-                    resCode: "0"
-                    // msg: "邮件发送成功"
-                })
-            } else {
-                res.status(422).send({
-                    resCode: "1"
-                    // msg: "邮件发送失败，邮箱填写错误，请检查后重试。详情请询问管理员。"
-                })
-            }
         }
     });
 

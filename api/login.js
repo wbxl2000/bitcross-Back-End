@@ -11,30 +11,31 @@ const bodyParser = require('body-parser')
 var jsonParser = bodyParser.json()
 
 router.post('/', jsonParser, async (req, res) => {
+    console.log("登录")
     const user = await userAuths.findOne({
         uid: req.body.studentId
     })
     // uid is not exist
     if (!user) {
-        return res.status(422).send({
+        return res.status(200).send({
             resCode: '2',
             token: ''
         })
     }
     
-    const isPasswordValid = require('bcrypt').compareSync(
+    const isPasswordValid = await require('bcrypt').compareSync(
         req.body.password,
         user.password
     )
     if (!isPasswordValid) {
-        return res.status(422).send({
+        return res.status(200).send({
             resCode: '1',
             token: ''
         })
     }
     // 生成token
     const token = jwt.sign({
-        id: String(user._id),
+        id: String(user.uid),
     }, SECRET)
 
     res.send({
