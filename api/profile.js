@@ -12,8 +12,11 @@ var jsonParser = bodyParser.json()
 
 const auth = async (req, res, next) => {
     const raw = String(req.headers.authorization).split(' ').pop();
+    // console.log('raw:' + raw);
     const { id } = jwt.verify(raw, SECRET)
-    req.user = await userAuths.findById(id)
+    // console.log("id? " + id);
+    req.user = await userAuths.findOne({ uid: id });
+    // console.log("who? " + req.user);
     next()
 }
 

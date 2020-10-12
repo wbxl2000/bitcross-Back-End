@@ -2,6 +2,7 @@
 # @url = http://60.205.247.170:30000/api
 @json = Content-Type: application/json
 @json2 = Content-Type: application/x-www-form-urlencoded
+@token = token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIwMTgwNTEzMDE0NiIsImlhdCI6MTYwMjUwMTQxNX0.u83D1HTG47KiqcOhANQE633PFHrhBzLwsDsh6vdlgC8
 
 ###
 get {{url}}
@@ -34,7 +35,7 @@ post {{url}}/login
 
 ### 个人信息
 get {{url}}/profile
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmNzA2MjI4MzE3NmQ3NzJmMGRjZmM3MiIsImlhdCI6MTYwMTIwNDQxNn0.45qnw9RpNzPvkMW9BM3jbkJKJEf7POeo7jjWMFogZqA
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIwMTgwNTEzMDE0NiIsImlhdCI6MTYwMjUwMTQxNX0.u83D1HTG47KiqcOhANQE633PFHrhBzLwsDsh6vdlgC8
 
 ### 所有邮箱验证码
 get {{url}}/allEmailCode
@@ -61,10 +62,11 @@ post {{url}}/createPost
 {{json}}
 
 {
-    "postType": 1,
-    "creatorId": "201805130163",
-    "title": "第3篇帖子的标题",
-    "content": "这里是第3篇帖子的内容嗷嗷嗷嗷contentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontent"
+    "postType": "2",
+    "title": "第111111篇帖子的标题",
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIwMTgwNTEzMDE0NiIsImlhdCI6MTYwMjUwMTQxNX0.u83D1HTG47KiqcOhANQE633PFHrhBzLwsDsh6vdlgC8",
+    "introduce": "我不知道21424134234134",
+    "content": "这里是第35235b3463452b235b23篇帖子的内容嗷嗷嗷嗷contentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontent"
 }
 
 ### 回复帖子
