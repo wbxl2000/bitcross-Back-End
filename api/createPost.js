@@ -1,5 +1,6 @@
-// TODO 用文件替换掉 而且 全局唯一
-const SECRET = 'qwrqerewrwerasedfsd';
+const fs = require('fs');
+const SECRET = fs.readFileSync('lib/BALNEPO', 'utf8');
+
 const jwt = require('jsonwebtoken')
 const { userAuths } = require('./db/models.js')
 
@@ -62,12 +63,12 @@ router.post('/', jsonParser, auth, async (req, res) => {
     if (!post) {
         res.status(200).send({
             // msg: "发帖失败"
-            redCode: "1"
+            resCode: "1"
         })
     } else {
         res.status(200).send({
             // msg: "发帖成功"
-            redCode: "0"
+            resCode: "0"
         })
     }
 

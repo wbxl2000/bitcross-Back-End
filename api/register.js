@@ -1,5 +1,6 @@
-// TODO 用文件替换掉 而且 全局唯一
-const SECRET = 'qwrqerewrwerasedfsd';
+const fs = require('fs');
+const SECRET = fs.readFileSync('lib/BALNEPO', 'utf8');
+
 const jwt = require('jsonwebtoken')
 
 
