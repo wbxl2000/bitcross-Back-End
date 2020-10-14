@@ -21,7 +21,7 @@ post {{url}}/register
     "password": "password123456",
     "invitationCode": "abc",
     "email": "qilongyu@126.com",
-    "emailCode": "398989"
+    "emailCode": "671323"
 }
 
 ### 登录
@@ -35,7 +35,7 @@ post {{url}}/login
 
 ### 个人信息
 get {{url}}/profile
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIwMTgwNTEzMDE0NiIsImlhdCI6MTYwMjUwMTQxNX0.u83D1HTG47KiqcOhANQE633PFHrhBzLwsDsh6vdlgC8
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIwMTgwNTEzMDE0NiIsImlhdCI6MTYwMjU3Mjc2N30.W3MWlXHqTNMM1A31_ie4_i0JTnrpEzc_M72abQrxnME
 
 ### 所有邮箱验证码
 get {{url}}/allEmailCode
@@ -63,10 +63,10 @@ post {{url}}/createPost
 
 {
     "postType": 1,
-    "title": "第 13 篇帖子的标题",
+    "title": "第 14 篇篇篇帖子的标题 nodejs",
     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIwMTgwNTEzMDE0NiIsImlhdCI6MTYwMjUwMTQxNX0.u83D1HTG47KiqcOhANQE633PFHrhBzLwsDsh6vdlgC8",
     "introduce": "我不知道21424134234134",
-    "content": "这里是第 13 篇帖子的内容嗷嗷嗷嗷contentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontent"
+    "content": "这里是第 1444 篇帖子的内容嗷嗷嗷嗷contentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontent"
 }
 
 ### 回复帖子
@@ -79,13 +79,38 @@ post {{url}}/addPostContent
     "reply_content": "抢沙发"
 }
 
-### 获得文章列表
+### 获得文章列表1
 post {{url}}/getPostAll
 {{json}}
 
 {
-    "postType": 1,
+    "postType": 0,
+    "search": "文章",
+    "rankType": 1,
     "numberBegin": 1,
-    "numberEnd": 1,
-    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmNzA4ZmI1MzQ5Y2MxNDFjODdiMDEwOSIsImlhdCI6MTYwMTQ0MTY2N30.MdRghK8f1KR0Kx_heF8Yk0vJoSNJSBh-FlZl-olp95Y"
+    "numberEnd": 10,
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIwMTgwNTEzMDE0NiIsImlhdCI6MTYwMjU3Mjc2N30.W3MWlXHqTNMM1A31_ie4_i0JTnrpEzc_M72abQrxnME"
+}
+
+### 获得文章列表2
+post {{url}}/getPostAll
+{{json}}
+
+{
+    "postType": -1,
+    "search": "jsnode",
+    "rankType": 1,
+    "numberBegin": 1,
+    "numberEnd": 10,
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIwMTgwNTEzMDE0NiIsImlhdCI6MTYwMjU3Mjc2N30.W3MWlXHqTNMM1A31_ie4_i0JTnrpEzc_M72abQrxnME"
+}
+
+
+### 获得文章
+post {{url}}/getPostOne
+{{json}}
+
+{
+    "post_id": 11,
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIwMTgwNTEzMDE0NiIsImlhdCI6MTYwMjU3Mjc2N30.W3MWlXHqTNMM1A31_ie4_i0JTnrpEzc_M72abQrxnME"
 }

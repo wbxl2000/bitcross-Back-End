@@ -17,7 +17,8 @@ const postPublishSchema = new mongoose.Schema({
     content: { type: String},
     pageView: {type: Number, default: 0},
     floor_counts: {type: Number, default: 1},
-    introduce: {type: String}
+    introduce: {type: String},
+    favors: {type: Number, default: 0}
 })
 
 const postPublish = mongoose.model('post_publish', postPublishSchema)

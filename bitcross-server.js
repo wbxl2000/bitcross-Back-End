@@ -9,7 +9,9 @@ const profile = require("./api/profile")
 const sendEmailCode = require("./api/sendEmailCode")
 const createPost = require("./api/createPost")
 const getPostAll = require("./api/getPostAll")
+const getPostOne = require("./api/getPostOne")
 const addPostContent = require("./api/addPostContent")
+const favorPost = require("./api/favorPost")
 // half fake
 const createInvitationCode = require("./api/createInvitationCode")
 
@@ -25,7 +27,9 @@ app.use("/api/profile", profile)
 app.use("/api/sendEmailCode", sendEmailCode)
 app.use("/api/createPost", createPost)
 app.use("/api/getPostAll", getPostAll)
+app.use("/api/getPostOne", getPostOne)
 app.use("/api/addPostContent", addPostContent)
+app.use("/api/favorPost", favorPost)
 // half fake
 app.use("/api/createInvitationCode", createInvitationCode)
 // fake api
