@@ -6,7 +6,8 @@ const { userAuths } = require('./db/models.js')
 
 const express = require('express')
 const { postPublish } = require('./db/postPublish.js')
-const { counts } = require('./db/counts.js')
+const { postReply } = require('./db/postReply.js')
+const { postReplyRE } = require('./db/postReply_RE.js')
 
 var router = express.Router()
 
@@ -67,12 +68,56 @@ router.post('/', jsonParser, auth, async (req, res) => {
         userimg: "https://myweb-image.oss-cn-beijing.aliyuncs.com/main_head.jpg",
         content: result.content, 
         count: [result.pageView, result.floor_counts, result.favors],
-        time: (String)(result.start_time).split(' ')
+        time: (String)(result.start_time).split(' '),
+        reply: [],
     }
+
+    const replys = await postReply.find({
+        post_id: req.body.post_id,
+    }).sort({
+        floor: 1
+    })
+    console.log('replys:');
+    console.log(replys);
+    for (let i = 0; i < replys.length; i++) {
+        var aFloor = {
+            floor: replys[i].floor,
+            user_img: "https://myweb-image.oss-cn-beijing.aliyuncs.com/main_head.jpg",
+            username: replys[i].uid,
+            reply_content: replys[i].reply_content,
+            time: (String)(replys[i].reply_time).split(' '),
+            reply_list: []
+        }
+        // const allrereplys = await postReplyRE.find()
+        const rereplys = await postReplyRE.find({
+            post_id: replys[i].post_id,
+            rereply_floor: replys[i].floor
+        })
+        console.log('rereplys');
+        console.log(rereplys);
+        // console.log('allrereplys');
+        // console.log(allrereplys);
+        for (let j = 0; j < rereplys.length; j++) {
+            var aFloorFloor = {
+                user_img: "https://myweb-image.oss-cn-beijing.aliyuncs.com/main_head.jpg",
+                username: rereplys[j].uid,
+                reply_content: rereplys[j].reply_content,
+                time: (String)(rereplys[j].rereply_time).split(' ')
+            }
+
+            aFloor.reply_list.push(aFloorFloor)
+        }
+
+
+        aPost.reply.push(aFloor);
+        
+    }
+
     resJson.resCode = '0';
     resJson.data.push(aPost);
     res.json(resJson);
     res.end();
 })
+
 
 module.exports = router

@@ -50,7 +50,16 @@ router.post('/', jsonParser, auth, async (req, res) => {
     // console.log('raw:');
     // console.log(result)
 
-    const sortParams = ['','pageView','start_time','floor_counts','floor_counts'];
+    const sortParamsName = ['','pageView','start_time','floor_counts','favors'];
+    const sortParamsType = [0, -1, -1, -1, -1];
+    var sortJsons = [];
+    for (let i = 1; i <= 5; ++i) {
+        var json = {};
+        json[sortParamsName[i]] = sortParamsType[i];
+        sortJsons.push(json)
+    }
+    console.log('sortJsons');
+    console.log(sortJsons);
 
     var result;
 
@@ -58,7 +67,6 @@ router.post('/', jsonParser, auth, async (req, res) => {
         const keyword = req.body.search //从URL中传来的 keyword参数
         const reg = new RegExp(keyword, 'i') //不区分大小写
         console.log("keyword:" + keyword);
-        let sssort = sortParams[req.body.rankType];
         result = await postPublish.find(
             {
                 $or : [ //多条件，数组
@@ -68,10 +76,8 @@ router.post('/', jsonParser, auth, async (req, res) => {
             })
             .skip(req.body.numberBegin - 1)
             .limit(req.body.numberEnd - req.body.numberBegin + 1)
-            .sort({
-                sssort: -1
-            });
-        resJson.total = await postPublish.count(
+            .sort(sortJsons[req.body.rankType - 1]);
+        resJson.total = await postPublish.countDocuments(
             {
                 $or : [ //多条件，数组
                     {title : {$regex : reg}},
@@ -81,23 +87,24 @@ router.post('/', jsonParser, auth, async (req, res) => {
         console.log('search res: ');
         console.log(result)
     } else if (req.body.postType == 0) {
+        console.log('sortJsons[req.body.rankType]:');
+        console.log(sortJsons[req.body.rankType - 1]);
+        console.log({
+            'pageView': -1
+        })
         result = await postPublish.find()
         .skip(req.body.numberBegin - 1)
         .limit(req.body.numberEnd - req.body.numberBegin + 1)
-        .sort({
-            sssort: -1
-        });
-        resJson.total = await postPublish.count();
+        .sort(sortJsons[req.body.rankType - 1]);
+        resJson.total = await postPublish.countDocuments();
     } else {
         result = await postPublish.find({
             post_type: req.body.postType
         })
         .skip(req.body.numberBegin - 1)
         .limit(req.body.numberEnd - req.body.numberBegin + 1)
-        .sort({
-            sssort: -1
-        });
-        resJson.total = await postPublish.count({
+        .sort(sortJsons[req.body.rankType - 1]);
+        resJson.total = await postPublish.countDocuments({
             post_type: req.body.postType
         });
     }

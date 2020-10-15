@@ -14,16 +14,14 @@ mongoose.connect('mongodb://bitcrossAdmin:#1Xbit@localhost:27017/bitcross', {
 //     email: req.body.email
 // })
 
-const postContentSchema = new mongoose.Schema({
+const postReplyRESchema = new mongoose.Schema({
     post_id: { type: String}, 
-    reply_id: {type: String},
-    reply_content: {type: String},
-    reply_time: { type: Date, default: Date.now()},
-    floor: { type: Number},
-    be_likes: {type: Number, default: 0}
-
+    uid: { type: String},
+    rereply_content: {type: String},
+    rereply_time: { type: Date, default: Date.now},
+    rereply_floor: { type: Number}
 })
 
-const postContent = mongoose.model('post_content', postContentSchema)
+const postReplyRE = mongoose.model('post_rereply', postReplyRESchema)
 
-module.exports = { postContent }
+module.exports = { postReplyRE }
