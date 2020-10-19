@@ -49,10 +49,11 @@ router.post('/', jsonParser, auth, async (req, res) => {
         console.log('floor修改成功：' + docs);
     })
 
+    console.log(`create: ${req.body.rereply_content}` + '??????????????????????');
     const content = await postReplyRE.create({
         post_id: req.body.post_id,
         uid: req.user.uid,
-        reply_content: req.body.reply_content,
+        rereply_content: req.body.rereply_content,
         rereply_floor: req.body.rereply_floor
     })
 

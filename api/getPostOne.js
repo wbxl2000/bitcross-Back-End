@@ -109,7 +109,7 @@ router.post('/', jsonParser, auth, async (req, res) => {
             var aFloorFloor = {
                 user_img: "https://myweb-image.oss-cn-beijing.aliyuncs.com/main_head.jpg",
                 username: rereplys[j].uid,
-                reply_content: rereplys[j].reply_content,
+                rereply_content: rereplys[j].rereply_content,
                 time: (String)(rereplys[j].rereply_time).split(' ')
             }
 

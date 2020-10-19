@@ -47,7 +47,7 @@ router.post('/', jsonParser, auth, async (req, res) => {
     }
     let newCnt = cnt.count + 1;
 
-    let some = await counts.updateOne({name: "post"}, {count: newCnt}, function(err, docs){
+    let some = await counts.updateOne({name: "post"}, {count: newCnt}, (err, docs) => {
         if(err) console.log(err);
         console.log('post_cnt修改成功：' + docs);
     })

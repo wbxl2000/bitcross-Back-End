@@ -111,7 +111,7 @@ post {{url}}/getPostOne
 {{json}}
 
 {
-    "post_id": 6,
+    "post_id": 11,
     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIwMTgwNTEzMDE0NiIsImlhdCI6MTYwMjU3Mjc2N30.W3MWlXHqTNMM1A31_ie4_i0JTnrpEzc_M72abQrxnME"
 }
 
@@ -132,6 +132,6 @@ post {{url}}/addPostReply_RE
 {
     "post_id": 11,
     "rereply_floor": 2,
-    "rereply_content": "这层楼针不戳",
+    "rereply_content": "来来来 测试一下",
     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIwMTgwNTEzMDE0NiIsImlhdCI6MTYwMjU3Mjc2N30.W3MWlXHqTNMM1A31_ie4_i0JTnrpEzc_M72abQrxnME"
 }
