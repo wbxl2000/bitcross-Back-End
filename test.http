@@ -111,7 +111,7 @@ post {{url}}/getPostOne
 {{json}}
 
 {
-    "post_id": 11,
+    "post_id": 6,
     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIwMTgwNTEzMDE0NiIsImlhdCI6MTYwMjU3Mjc2N30.W3MWlXHqTNMM1A31_ie4_i0JTnrpEzc_M72abQrxnME"
 }
 

@@ -61,6 +61,14 @@ router.post('/', jsonParser, auth, async (req, res) => {
     console.log("result:");
     console.log(result);
 
+    var pageView_add = result.pageView + 1;
+    // 浏览量
+    var update_val = await postPublish.updateOne({
+        post_id: req.body.post_id
+    }, {
+        pageView: pageView_add
+    })
+
     var aPost = {
         username: result.creator_id,
         id: result.creator_id, 

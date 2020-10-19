@@ -11,9 +11,15 @@ mongoose.connect('mongodb://bitcrossAdmin:#1Xbit@localhost:27017/bitcross', {
 const emailCodeSchema = new mongoose.Schema({
     email: { type: String}, 
     code: { type: String},
-    expire: { type: Date, default: Date.now, expires: '300'}
+    time: { 
+        type: Date, default: Date.now, 
+        index: { expires: '300'}
+    }
 })
 
 const emailCode = mongoose.model('email_code', emailCodeSchema)
+// emailCode.createIndexes(emailCodeSchema.index({expires:1}, {expireAfterSeconds:300}), function(err, info){
+//     if(err) console.error(err);
+// });
 
 module.exports = { emailCode }

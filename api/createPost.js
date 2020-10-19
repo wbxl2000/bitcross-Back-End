@@ -63,12 +63,14 @@ router.post('/', jsonParser, auth, async (req, res) => {
     if (!post) {
         res.status(200).send({
             // msg: "发帖失败"
-            resCode: "1"
+            resCode: "1",
+            post_id: ""
         })
     } else {
         res.status(200).send({
             // msg: "发帖成功"
-            resCode: "0"
+            resCode: "0",
+            post_id: newCnt
         })
     }
 
