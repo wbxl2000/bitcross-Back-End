@@ -6,6 +6,7 @@ const jwt = require('jsonwebtoken')
 
 const express = require('express')
 const { userAuths } = require('./db/models.js')
+const { userInfo } = require('./db/userInfo.js')
 const { emailCode } = require('./db/emailCode.js')
 const { invitationCode } = require('./db/invitationCode.js')
 const { counts } = require('./db/counts.js')
@@ -114,7 +115,7 @@ router.post('/', jsonParser, async (req, res) => {
         }
     })    
     if (resCode) {
-        endPost(resCode, token);
+        endPost("4", "");
         return;
     }
     // 修改总人数
@@ -140,6 +141,16 @@ router.post('/', jsonParser, async (req, res) => {
         return;
     }
     // 创建用户
+    const info = await userInfo.create({
+        uid: req.body.studentId, 
+        nickName: req.body.realName,
+        realName: req.body.realName
+    })
+    if (!info) {
+        endPost(resCode, token);
+        return;
+    }
+
     const user = await userAuths.create({
         uid: req.body.studentId, 
         id: nums.count + 1, 

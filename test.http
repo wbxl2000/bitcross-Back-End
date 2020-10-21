@@ -16,12 +16,12 @@ post {{url}}/register
 {{json}}
 
 {
-    "studentId": "201805130146",
+    "studentId": "201805130177",
     "realName": "亓龙雨",
     "password": "password123456",
     "invitationCode": "abc",
     "email": "qilongyu@126.com",
-    "emailCode": "671323"
+    "emailCode": "344024"
 }
 
 ### 登录
@@ -63,7 +63,7 @@ post {{url}}/createPost
 
 {
     "postType": 1,
-    "title": "第 14 篇篇篇帖子的标题 nodejs",
+    "title": "第 66666 篇篇篇帖子的标题 nodejs",
     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIwMTgwNTEzMDE0NiIsImlhdCI6MTYwMjUwMTQxNX0.u83D1HTG47KiqcOhANQE633PFHrhBzLwsDsh6vdlgC8",
     "introduce": "我不知道21424134234134",
     "content": "这里是第 1444 篇帖子的内容嗷嗷嗷嗷contentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontent"
@@ -132,6 +132,16 @@ post {{url}}/addPostReply_RE
 {
     "post_id": 11,
     "rereply_floor": 2,
-    "rereply_content": "来来来 测试一下",
+    "rereply_content": "来来来 测试liang下",
     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIwMTgwNTEzMDE0NiIsImlhdCI6MTYwMjU3Mjc2N30.W3MWlXHqTNMM1A31_ie4_i0JTnrpEzc_M72abQrxnME"
+}
+
+### 文章收藏
+post {{url}}/favorPost
+{{json}}
+
+{
+    "post_id": 21,
+    "opt": 1,
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIwMTgwNTEzMDE0NiIsImlhdCI6MTYwMzI4NTY5OH0.jtG7_W58_HpGF8HxwWtmMv2yo5eQnu_YgmbuCIT9B9E"
 }

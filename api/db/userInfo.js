@@ -8,18 +8,18 @@ mongoose.connect('mongodb://bitcrossAdmin:#1Xbit@localhost:27017/bitcross', {
 })
 
 // 数据库相关命名使用下划线，其余均小驼峰
-const userAuthsSchema = new mongoose.Schema({
+const userInfoSchema = new mongoose.Schema({
     uid: { type: String, unique: true}, 
     RegDate: { type: Date, default: Date.now}, 
     nickName: { type: String},
     realName: { type: String},
-    
-    password: { type: String, set(val) {
-        return require('bcrypt').hashSync(val, 10)
-    }
-},
+    realNamehide: {type: Number, default: 0},
+    Point: {type: Number, default: 0},
+    Level: {type: Number, default: 1},
+    Signature: {type: String, default: "这个人很懒，还没有个性签名哦~"}
+    // latelogin: {type: String},
 })
 
-const userAuths = mongoose.model('user_auths', userAuthsSchema)
+const userInfo = mongoose.model('user_info', userInfoSchema)
 
-module.exports = { userAuths }
+module.exports = { userInfo }

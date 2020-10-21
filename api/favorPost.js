@@ -44,7 +44,7 @@ router.post('/', jsonParser, auth, async (req, res) => {
     }
 
     // 找文章
-    var postRes = await postPublish.find({
+    var postRes = await postPublish.findOne({
         post_id: req.body.post_id
     })
     if (!postRes) {
@@ -53,15 +53,17 @@ router.post('/', jsonParser, auth, async (req, res) => {
         res.end();
         return;
     }
-
+    // console.log('postRes：：');
+    // console.log(postRes);
     var nowCnt = postRes.favors;
 
     // 找一下是否收藏
     var isFavorite = '-1';
-    var postRes = await favorPostList.find({
+    var postRes = await favorPostList.findOne({
         post_id: req.body.post_id,
-        uid: req.body.uid
+        uid: req.user.uid
     })
+
     if (!postRes) {
         isFavorite = "0";
     } else {
@@ -69,48 +71,60 @@ router.post('/', jsonParser, auth, async (req, res) => {
     }
 
     // 仅查询
-    if (req.body.opt == 0) {
+    if (req.body.opt != 1) {
         resJson.resCode = isFavorite;
         res.json(resJson);
         res.end();
         return;
     }
 
+    console.log('是否被收藏过：' + isFavorite);
     // 反向
     if (isFavorite == '0') {
         // 需要添加
-        var addFavor = await favorPostList.updateOne({
+        console.log('req.body.uid::' + req.user.uid);
+        var addFavor = await favorPostList.create({
             post_id: req.body.post_id,
-            uid: req.body.uid
+            uid: req.user.uid
         })
         if (!addFavor) {
             resJson.resCode = '-1';
         } else {
             resJson.resCode = '1';
+            nowCnt += 1;
+            console.log("now 数量+1：" + nowCnt);
+            var findRes = await postPublish.findOne({
+                post_id: req.body.post_id
+            })
+
+            // console.log("要更新的文章：");
+            // console.log(findRes);
+
             var updateCount = await postPublish.updateOne({
                 post_id: req.body.post_id
             },{
-                favors: nowCnt + 1
+                favors: nowCnt
             })
         }
         res.json(resJson);
         res.end();
         return;
-    } 
-    if (isFavorite == '1') {
+    } else if (isFavorite == '1') {
         // 需要删除
         var addFavor = await favorPostList.deleteOne({
             post_id: req.body.post_id,
-            uid: req.body.uid
+            uid: req.user.uid
         })
         if (!addFavor) {
             resJson.resCode = '-1';
         } else {
             resJson.resCode = '0';
+            nowCnt -= 1;
+            console.log("now 数量-1：" + nowCnt);
             var updateCount = await postPublish.updateOne({
                 post_id: req.body.post_id
             },{
-                favors: nowCnt - 1
+                favors: nowCnt
             })
         }
         res.json(resJson);
