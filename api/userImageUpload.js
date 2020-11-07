@@ -11,11 +11,6 @@ const { postReplyRE } = require('./db/postReply_RE.js')
 
 var router = express.Router()
 
-
-const fileUpload = require('express-fileupload');
-// default options
-app.use(fileUpload());
-
 const auth = async (req, res, next) => {
     // const raw = String(req.headers.authorization).split(' ').pop();
     var raw = req.body.token;
@@ -32,20 +27,21 @@ const auth = async (req, res, next) => {
     next()
 }
 
-router.post('/', auth, async (req, res) => {
+router.post('/', async (req, res) => {
+    console.log(req.files.image.name);
     if (!req.files || Object.keys(req.files).length === 0) {
         return res.status(400).send('No files were uploaded.');
-      }
-    
-      // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
-      let sampleFile = req.files.sampleFile;
-    
-      // Use the mv() method to place the file somewhere on your server
-      sampleFile.mv('/lib/img/qer.jpeg', function(err) {
+    }
+
+    // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
+    let sampleFile = req.files.image;
+
+    // Use the mv() method to place the file somewhere on your server
+    sampleFile.mv('./lib/img/qer.jpeg', function (err) {
         if (err)
-          return res.status(500).send(err);
+            return res.status(500).send(err);
         res.send('File uploaded!');
-      });
+    });
 })
 
 

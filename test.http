@@ -1,5 +1,5 @@
 @url = http://localhost:30000/api
-# @url = http://60.205.247.170:30000/api
+@url2 = http://60.205.247.170:30000/api
 @json = Content-Type: application/json
 @json2 = Content-Type: application/x-www-form-urlencoded
 @token = token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIwMTgwNTEzMDE0NiIsImlhdCI6MTYwMjUwMTQxNX0.u83D1HTG47KiqcOhANQE633PFHrhBzLwsDsh6vdlgC8
@@ -147,7 +147,7 @@ post {{url}}/favorPost
 }
 
 ### 上传图片
-POST {{url}}/userImageUpload
+POST {{url2}}/userImageUpload
 Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
 
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
