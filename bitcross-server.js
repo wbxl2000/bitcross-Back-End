@@ -1,7 +1,12 @@
 const express = require('express');
+const fileUpload = require('express-fileupload');
 const app = express();
 const cors = require('cors');
 app.use(cors());
+// default options
+app.use(fileUpload());
+
+app.use(express.static('public')) //开放静态资源, 恩，一步解决
 
 const register = require("./api/register")
 const login = require("./api/login")

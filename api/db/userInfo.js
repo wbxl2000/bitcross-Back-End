@@ -16,7 +16,8 @@ const userInfoSchema = new mongoose.Schema({
     realNamehide: {type: Number, default: 0},
     Point: {type: Number, default: 0},
     Level: {type: Number, default: 1},
-    Signature: {type: String, default: "这个人很懒，还没有个性签名哦~"}
+    Signature: {type: String, default: "这个人很懒，还没有个性签名哦~"},
+    userImg:{ type: String, default: ""}
     // latelogin: {type: String},
 })
 

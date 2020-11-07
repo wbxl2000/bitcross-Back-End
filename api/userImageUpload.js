@@ -5,9 +5,7 @@ const jwt = require('jsonwebtoken')
 const { userAuths } = require('./db/models.js')
 
 const express = require('express')
-const { postPublish } = require('./db/postPublish.js')
-const { postReply } = require('./db/postReply.js')
-const { postReplyRE } = require('./db/postReply_RE.js')
+const { userInfo } = require('./db/userInfo.js')
 
 var router = express.Router()
 
@@ -28,20 +26,70 @@ const auth = async (req, res, next) => {
 }
 
 router.post('/', async (req, res) => {
-    console.log(req.files.image.name);
-    if (!req.files || Object.keys(req.files).length === 0) {
-        return res.status(400).send('No files were uploaded.');
+    var resJson = {
+        resCode: "-1",
+        url: ""
+    };
+    // if (req.user == null) {
+    //     resJson.resCode = "1";
+    //     resJson.url = "";
+    //     res.json(resJson);
+    //     res.end();
+    //     return;
+    // }
+    
+    if (!req.files) {
+        resJson.resCode = "3";
+        resJson.url = "";
+        res.json(resJson);
+        res.end();
+        return;
     }
+
+    if (req.files.image.size > 1024 * 1024) {
+        resJson.resCode = "2";
+        resJson.url = "";
+        res.json(resJson);
+        res.end();
+        return;
+    }
+    console.log(req.files.image.name);
+
+    const url = '/user_img/' + req.user.uid + req.files.image.name;
+    const url2 = '/public/user_img/' + req.files.image.name;
+
 
     // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
     let sampleFile = req.files.image;
 
     // Use the mv() method to place the file somewhere on your server
-    sampleFile.mv('./lib/img/qer.jpeg', function (err) {
-        if (err)
-            return res.status(500).send(err);
-        res.send('File uploaded!');
+    sampleFile.mv('./public' + url, function (err) {
+        console.log(url);
+        if (err) {
+            resJson.resCode = "3";
+            resJson.url = "";
+            console.log(err);
+        } else {
+            resJson.resCode = "0";
+            resJson.url = url;
+        }
+        res.json(resJson);
+        res.end();
+        return;
     });
+    if (resJson.resCode == "0") {
+        let info = await userInfo.updateOne({
+            uid: req.user.uid
+        },{
+            userImg: url
+        })
+        if (!info) {
+            resJson.resCode = "1";
+        }
+    }
+    res.json(resJson);
+    res.end();
+    return;
 })
 
 
