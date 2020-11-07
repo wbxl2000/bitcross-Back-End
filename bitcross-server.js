@@ -13,6 +13,8 @@ const getPostOne = require("./api/getPostOne")
 const addPostReply = require("./api/addPostReply")
 const addPostReply_RE = require("./api/addPostReply_RE")
 const favorPost = require("./api/favorPost")
+const userImageUpload = require("./api/userImageUpload")
+
 // half fake
 const createInvitationCode = require("./api/createInvitationCode")
 
@@ -32,6 +34,7 @@ app.use("/api/getPostOne", getPostOne)
 app.use("/api/addPostReply", addPostReply) 
 app.use("/api/addPostReply_RE", addPostReply_RE) 
 app.use("/api/favorPost", favorPost)
+app.use("/api/userImageUpload", userImageUpload)
 // half fake
 app.use("/api/createInvitationCode", createInvitationCode)
 // fake api

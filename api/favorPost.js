@@ -88,9 +88,9 @@ router.post('/', jsonParser, auth, async (req, res) => {
             uid: req.user.uid
         })
         if (!addFavor) {
-            resJson.resCode = '-1';
-        } else {
             resJson.resCode = '1';
+        } else {
+            resJson.resCode = '0';
             nowCnt += 1;
             console.log("now 数量+1：" + nowCnt);
             var findRes = await postPublish.findOne({
@@ -116,7 +116,7 @@ router.post('/', jsonParser, auth, async (req, res) => {
             uid: req.user.uid
         })
         if (!addFavor) {
-            resJson.resCode = '-1';
+            resJson.resCode = '1';
         } else {
             resJson.resCode = '0';
             nowCnt -= 1;
